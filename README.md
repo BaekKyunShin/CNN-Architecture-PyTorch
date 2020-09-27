@@ -15,7 +15,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
   - 2개의 convolutional layers, 2개의 sub-sampling layers 및 2개의 fully-connected layers
   - convolutional layers 다음에는 Subsampling(pooling)을 적용함 (average-pooling)
 
-  ![image-20200921000930157](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200921000930157.png)
+  ![LeNet](https://user-images.githubusercontent.com/36662761/93849124-46e03d80-fce6-11ea-9dea-811bfe91a871.PNG)
 
 - **특징**
 
@@ -34,7 +34,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
   - max-pooling layers가 뒤따르는 5개의 convolutional layers, 3개의 fully-conneted layers, 마지막 fully-connected layers 이후에는 1,000개의 category 분류를 위한 softmax 함수 사용
   - 65만 개의 뉴런, 6,000만 개의 파라미터, 6억 3,000만 개의 연결(connection)로 구성
 
-![](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200920213809737.png)
+![AlexNet](https://user-images.githubusercontent.com/36662761/93849129-49db2e00-fce6-11ea-9d72-6734fac6fe77.PNG)
 
 - **세부 구조**
   - 첫 번째 convolutional layer
@@ -95,9 +95,9 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
   - 최종 구조인 D 구조는 총 16개의 layers로 구성
   - 1억 3,300만 개의 파라미터로 구성
 
-  ![img](https://songminkee.github.io/studyblog/assets/picture/vgg_architecture.jpg)
+  ![VGG](https://user-images.githubusercontent.com/36662761/93849197-827b0780-fce6-11ea-9fdc-288916f3a885.PNG)
 
-  ![image-20200923213701512](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200923213701512.png)
+  <img width="740" alt="vgg_architecture2" src="https://user-images.githubusercontent.com/36662761/94353667-a9eb1f00-00ae-11eb-8b2b-ac5d3305ae01.PNG">
 
 
 - **특징**
@@ -122,7 +122,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
   - 기울기 소실 및 폭발(Vanishing/Exploding Gradient)
   - 성능저하(degradation): CIFAR-10 데이터를 20-layers와 56-layers 모델로 실험하여 비교했을 때, 56-layers의 에러율이 더 높게 나타남, 이는 과적합(overfitting)과 다름 - 과적합은 훈련데이터에 대한 성능은 높고 테스트데이터에 대한 성능은 높아야 하는데 아래 그리프처럼 훈련데이터와 테스트데이터 모두에 대해 성능이 하락하는 것을 볼 수 있음
 
-  ![image-20200925214817794](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200925214817794.png)
+  ![image-20200925214817794](https://user-images.githubusercontent.com/36662761/94275179-9bebb000-ff81-11ea-8301-fceab4e6b8a8.PNG)
 
 - **기본 구조**
 
@@ -130,7 +130,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
 
     - 입력 x를 전달했을 때, 출력 H(x)를 반환하는 구조
 
-    ![image-20200925215334665](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200925215334665.png)
+    <img width="216" alt="ResNet2" src="https://user-images.githubusercontent.com/36662761/94275191-9f7f3700-ff81-11ea-8039-fd518b6edb9f.PNG">
 
   - ResNet의 Residual Learning 구조
 
@@ -140,7 +140,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
 
     - 입력 x를 전달했을 때, 출력 H(x) - x를 반환하는 구조 [F(x) = H(x) - x라 한다면 H(x) = F(x) + x]
 
-      ![image-20200925215502951](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200925215502951.png)
+      <img width="449" alt="ResNet3" src="https://user-images.githubusercontent.com/36662761/94275200-a1e19100-ff81-11ea-9f5d-0df2de370f2f.PNG">
 
     - 입력이 바로 출력으로 연결되는 shortcut이 생긴 구조, 덧셈 연산 하나만 늘어난 것이지만 성능 향상에는 꽤 큰 효과를 가져다 줌
 
@@ -148,13 +148,13 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
 
     - 기존의 CNN 모델과 ResNet 모델을 비교했을 때, ResNet의 성능이 더 우수함. 또한 기존 CNN 모델은 34-layers가 18-layers보다 에러율이 더 높았는데, ResNet은 34-layers가 에러율이 더 낮음
 
-      ![image-20200925221149218](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200925221149218.png)
+      <img width="694" alt="ResNet4" src="https://user-images.githubusercontent.com/36662761/94275214-a5751800-ff81-11ea-83fa-7b4a7fa403cf.PNG">
 
   - 병목 구조(Bottleneck Architecture)
 
     - 연산량을 줄이기 위해 3x3 convolution을 2개 연결시키는 대신 1x1 convolution을 수행하고 3x3 convolution을 수행한 뒤 다시 1x1 convolution을 수행했음
 
-      ![image-20200925221625152](C:\Users\weroo\AppData\Roaming\Typora\typora-user-images\image-20200925221625152.png)
+      <img width="625" alt="ResNet5" src="https://user-images.githubusercontent.com/36662761/94275221-a7d77200-ff81-11ea-81fd-a22c7b0d7ed7.PNG">
     
   - 34-layer 모델에 추가적으로 layer을 더해 50-layer, 101-layer, 152-layer도 만듦, 모두 34-layer보다 성능이 좋음, ImageNet에 최종 제출한 모델은 152-layer를 두 개 앙상블한 모델임
 
