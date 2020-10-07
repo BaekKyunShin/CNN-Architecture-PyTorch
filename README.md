@@ -70,6 +70,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
     - 일반적으로 pooling 할 때는 겹치는 부분이 없게 합니다. 하지만 AlexNet에서는 kernel 크기보다 stride 크기를 작게하여 pooling 영역이 겹치게 했습니다. 이런 방식을 overlapped pooling이라고 하며, overlapped pooling을 적용하여 에러율을 줄였습니다. 하지만 이 방식은 과적합(overfitting)에 빠질 가능성도 있습니다.
   - Local response normalization(LRN)
     - AlexNet의 첫 번째와 두 번째 convolution을 거친 결과에 대해 ReLU를 수행하고, max-pooling을 적용하기 전에 local response normalization을 수행합니다. 
+    - 주변의 약한 자극은 억제해서 강한 자극을 더 극대화시켜주는 효과가 있습니다.
     - 이는 결과를 정규화시켜주는 효과가 있기 때문에 에러율을 더 낮출 수 있습니다.
   - Dropout
     - AlexNet은 파라미터가 6,000만 개로 상당히 많습니다. 파라미터가 이렇게 많으면 과적합(overfitting)을 일으킬 가능성이 있습니다. 이를 개선하기 위해 AlexNet은 Dropout을 적용합니다. 처음 2개의 fully-connected layers에 적용했으며, 비율은 50%로 설정했습니다.
@@ -79,8 +80,8 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
     - 두 번째 방법은 학습 영상의 RGB 값을 변화시키는 것입니다. 
     - Data Augmentation을 통해 1% 이상 에러율을 줄였습니다.
   - 2개의 GPU
-    - 2개의 GPU(엔비디아 GTX580)를 기반으로 한 병렬 구조 - GPU1에서는 주로 색상과 관련없는 정보를 추출하고, GPU2에서는 색상과 관련된 정보를 추출함
-
+  - 2개의 GPU(엔비디아 GTX580)를 기반으로 한 병렬 구조 - GPU1에서는 주로 색상과 관련없는 정보를 추출하고, GPU2에서는 색상과 관련된 정보를 추출함
+  
 - **References**
 
   - [ImageNet Classification with Deep Convolutional Neural Networks (Alex Krizhevsky, 2012)](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
@@ -101,10 +102,12 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
 
 
 - **특징**
+  - 구조가 심플함
+    - ImageNet 대회에서 GoogLeNet이 우승했음에도 VGG가 구조가 더 심플하여 인기가 있음
   - LRN 적용 안 함
     - A-LRN 구조는 Local Response Normalization을 적용한 구조인데, 예상과 달리 VGG Net에서는 LRN이 별로 효과가 없음
   - 기울기 소실 및 폭발 개선
-    - 마지막 구조인 D구조는 layers가 16개로 굉장히 깊음. (논문에 따르면 layers가 16개 이상이면 별 이득이 없는 것으로 확인됨) 이렇게 layers가 깊을 때는 기울기 소실 및 폭발(gradient vanishing or exploding) 문제가 발생할 수 있음. 이를 개선하기 위해 비교적 간단한 A구조를 먼저 학습시킨 뒤 더 깊은 나머지 구조를 학습시킬 때, 처음 4개의 layers와 마지막 fully-connected-layers의 경우 구조 A의 학습 결과로 얻어진 값을 초기값으로 세팅함. 
+    - 마지막 구조인 D구조는 layers가 16개로 굉장히 깊음. (논문에 따르면 layers가 16개 이상이면 큰 이득이 없는 것으로 확인됨) 이렇게 layers가 깊을 때는 기울기 소실 및 폭발(gradient vanishing or exploding) 문제가 발생할 수 있음. 이를 개선하기 위해 비교적 간단한 A구조를 먼저 학습시킨 뒤 더 깊은 나머지 구조를 학습시킬 때, 처음 4개의 layers와 마지막 fully-connected-layers의 경우 구조 A의 학습 결과로 얻어진 값을 초기값으로 세팅함. 
   - Data Augmentation
     - AlexNet은 학습 이미지를 256 x 256 크기로 만든 후, 무작위로 224 x 224 크기의 이미지를 추출하고, RGB 컬러를 주성분 분석하여 Data Augmentation을 적용했음. 하지만 256 x 256 크기의 single scale만 활용했음
     - 반면, VGG Net은 single scale과 multi scale을 모두 활용함. single scale의 경우 256 x 256과 384 x 384 이미지를 사용함
@@ -142,7 +145,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
 
       <img width="449" alt="ResNet3" src="https://user-images.githubusercontent.com/36662761/94275200-a1e19100-ff81-11ea-9f5d-0df2de370f2f.PNG">
 
-    - 입력이 바로 출력으로 연결되는 shortcut이 생긴 구조, 덧셈 연산 하나만 늘어난 것이지만 성능 향상에는 꽤 큰 효과를 가져다 줌
+    - 입력이 바로 출력으로 연결되는 shortcut이 생긴 구조, 덧셈 연산 하나만 늘어난 것이지만 성능 향상에는 꽤 큰 효과를 가져다 줌 (Residual F(x)는 input x의 더 작은 변화량을 검출하여 깊은 망도 학습이 가능함)
 
     - Residual Learning 개념이 고안된 이유는 VGG Net과 같은 기존 방식으로는 일정 layer 이상을 넘어가게 되면 성능이 더 나빠지는 문제를 해결하기 위함임
 
@@ -162,8 +165,7 @@ CNN의 대표적인 모델인 LeNet5, AlexNet, VGG, ResNet의 구조를 살펴�
   
   - Feature-map의 크기가 절반으로 줄어드는 경우, 연산량의 균형을 맞추기 위해 kernel 수를 2배로 늘림
   - Feature-map의 크기를 줄일 때는 pooling을 사용하는 대신 convolution을 수행할 때 stride의 크기를 늘려줌 (연산량을 줄이기 위해)
-- 연산량을 줄이기 위해 Dropout을 사용하지 않음
-  
+  - 연산량을 줄이기 위해 Dropout을 사용하지 않음
 - **References**
   - [Deep Residual Learning for Image Recognition(Kaiming He,  2015)](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf)
   - [라온피플(주) 블로그](https://blog.naver.com/laonple/220761052425)
